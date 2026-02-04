@@ -1,0 +1,7 @@
+{
+  "name": "CareBridge Hub",
+  "description": "A comprehensive healthcare staffing and client management platform featuring AI-powered care planning, staff verification workflows, and intelligent cadre assignment.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

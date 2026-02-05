@@ -21,6 +21,7 @@
         ::-webkit-scrollbar-thumb:hover { background: #cbd5e1; }
     </style>
     <script>
+        // Ensure process.env is available for libraries that expect it
         window.process = {
             env: {
                 NODE_ENV: 'production',
@@ -38,8 +39,6 @@
     "@google/genai": "https://esm.sh/@google/genai@^1.38.0",
     "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
     "recharts": "https://esm.sh/recharts@^3.7.0",
-    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
-    "vite": "https://esm.sh/vite@^7.3.1",
     "react-native": "https://esm.sh/react-native@^0.83.1",
     "lucide-react-native": "https://esm.sh/lucide-react-native@^0.563.0",
     "express": "https://esm.sh/express@^5.2.1",

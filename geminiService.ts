@@ -1,11 +1,23 @@
 
 import { GoogleGenAI } from "@google/genai";
 
-// Standardized initialization of the Google GenAI client
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+// Initialize AI client lazily to prevent crashes during initial module load if key is missing
+let aiInstance: GoogleGenAI | null = null;
+
+const getAI = () => {
+  if (!aiInstance) {
+    const apiKey = process.env.API_KEY;
+    if (!apiKey) {
+      throw new Error("Gemini API Key is missing. Please check your environment configuration.");
+    }
+    aiInstance = new GoogleGenAI({ apiKey });
+  }
+  return aiInstance;
+};
 
 export const generateCarePlan = async (clientName: string, serviceType: string, healthNotes: string) => {
   try {
+    const ai = getAI();
     const response = await ai.models.generateContent({
       model: 'gemini-3-pro-preview',
       contents: `Generate a structured healthcare care plan for a client in Nigeria named ${clientName}. 
@@ -27,6 +39,7 @@ export const generateCarePlan = async (clientName: string, serviceType: string, 
 
 export const verifyStaffBio = async (name: string, cadre: string, registrationNumber: string, bio: string) => {
   try {
+    const ai = getAI();
     const response = await ai.models.generateContent({
       model: 'gemini-3-pro-preview',
       contents: `Perform a professional council registration check for the following professional in Nigeria.
@@ -71,6 +84,7 @@ export const generateShiftSummary = async (staffName: string, clientName: string
   const taskDetails = tasks.map(t => `- ${t.title}: ${t.status} (${t.comments || 'No specific notes'})`).join('\n');
   
   try {
+    const ai = getAI();
     const response = await ai.models.generateContent({
       model: 'gemini-3-flash-preview',
       contents: `Generate a professional clinical shift summary for a healthcare worker in Nigeria.

@@ -63,34 +63,15 @@ export enum TaskTiming {
   LATE = 'Late'
 }
 
-export interface Task {
-  id: string;
-  staffId: string;
-  clientId: string;
-  date: string; // YYYY-MM-DD
-  time: string; // HH:mm
+export interface VerificationSource {
   title: string;
-  description: string;
-  status: TaskStatus;
-  comments?: string;
-  completedAt?: string; // ISO timestamp
-  timingResult?: TaskTiming;
+  uri: string;
 }
 
-export interface DailyReport {
-  id: string;
-  staffId: string;
-  clientId: string;
-  date: string;
-  content: string;
-  submittedAt: string;
-  isFinalized: boolean;
-  mood?: 'excellent' | 'good' | 'stable' | 'concerning';
-  clientFeedback?: string;
-  clientFeedbackAt?: string;
-  adminReply?: string;
-  adminReplyAt?: string;
-  adminFlagged?: boolean;
+export interface VerificationReport {
+  summary: string;
+  sources: VerificationSource[];
+  verifiedAt: string;
 }
 
 export interface Staff {
@@ -114,6 +95,7 @@ export interface Staff {
   state: string;
   hourlyRate?: number;
   registrationNumber?: string;
+  verificationReport?: VerificationReport;
 }
 
 export interface Client {
@@ -139,13 +121,13 @@ export interface Transaction {
   type: 'income' | 'expense';
   description: string;
   status: TransactionStatus;
-  relatedEntityId: string; // Staff ID or Client ID
+  relatedEntityId: string;
 }
 
 export interface Timesheet {
   id: string;
   staffId: string;
-  month: string; // e.g., "2024-03"
+  month: string;
   hoursWorked: number;
   totalEarnings: number;
   payoutStatus: 'Pending' | 'Paid';
@@ -164,6 +146,36 @@ export interface AppNotification {
   title: string;
   message: string;
   type: 'info' | 'success' | 'warning';
+}
+
+export interface Task {
+  id: string;
+  staffId: string;
+  clientId: string;
+  date: string;
+  time: string;
+  title: string;
+  description: string;
+  status: TaskStatus;
+  comments?: string;
+  completedAt?: string;
+  timingResult?: TaskTiming;
+}
+
+export interface DailyReport {
+  id: string;
+  staffId: string;
+  clientId: string;
+  date: string;
+  content: string;
+  submittedAt: string;
+  isFinalized: boolean;
+  mood?: 'excellent' | 'good' | 'stable' | 'concerning';
+  clientFeedback?: string;
+  clientFeedbackAt?: string;
+  adminReply?: string;
+  adminReplyAt?: string;
+  adminFlagged?: boolean;
 }
 
 export type View = 'dashboard' | 'staff' | 'clients' | 'services' | 'assignments' | 'accounting' | 'reporting';

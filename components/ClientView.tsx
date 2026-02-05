@@ -33,8 +33,9 @@ const ClientView: React.FC<Props> = ({ clients, setClients, addNotification }) =
     e.preventDefault();
     setIsGenerating(true);
     try {
-      const plan = await generateCarePlan(newClient.name, newClient.serviceType, newClient.notes);
-      setGeneratedPlan(plan);
+      const planResult = await generateCarePlan(newClient.name, newClient.serviceType, newClient.notes);
+      // Fixed: Extract the text property from the result object
+      setGeneratedPlan(planResult.text);
     } catch (err) {
       addNotification('Error', 'Failed to generate care plan.', 'warning');
     } finally {
